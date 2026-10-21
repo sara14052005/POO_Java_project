@@ -28,7 +28,8 @@ public class Zoo {
 	public void modifierAnimal(Animal animal) {
 		
 	}
-	public void rechercherAnimal(Animal animal) {
+	public  List<Animal> rechercherAnimal(String critere) {
+		return null;
 		
 	}
 	
