@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Zoo {
 	private  String nom;
 
@@ -23,7 +25,19 @@ public class Zoo {
 		
 	}
 	
-	public void name() {
+	public void modifierAnimal(Animal animal) {
+		
+	}
+	public void rechercherAnimal(Animal animal) {
+		
+	}
+	
+	public void affecterAnimalEnclos(Animal animal,Enclos enclos) {
+		
+	}
+	
+	public List<String> genererAlertes() {
+		return null;
 		
 	}
 }
