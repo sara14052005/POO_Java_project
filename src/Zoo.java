@@ -4,7 +4,6 @@ public class Zoo {
 	private  String nom;
 
 	public Zoo(String nom) {
-		super();
 		this.nom = nom;
 	}
 

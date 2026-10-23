@@ -54,7 +54,12 @@ public class Enclos {
 	}
 	
 	public boolean estPlein() {
-		return false;
+		if (capaciteMax == 0) {
+			return false;
+		} else {
+			return true;
+		}
+		
 		
 	}
 	
