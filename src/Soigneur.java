@@ -1,5 +1,3 @@
-package com.zookeeper.model;
-
 public class Soigneur {
     private String nom;
     private String matricule;
