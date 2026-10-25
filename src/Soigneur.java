@@ -1,21 +1,16 @@
-public class Soigneur {
-    private String nom;
-    private String matricule;
-    private List<Enclos> enclosGeres; // Enclos dont le soigneur s'occupe
-    private List<CSoin> soinsPlanifies;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Soigneur extends Employe {
+    private List<Enclos> enclosGeres;
+
     public Soigneur(String nom, String matricule) {
-        this.nom = nom;
-        this.matricule = matricule;
+        super(nom, matricule);
         this.enclosGeres = new ArrayList<>();
-        this.soinsPlanifies = new ArrayList<>();
     }
 
-    public CSoin planifierSoins(Soignable animal, String description, Date datePrevue) {
-        CSoin nouveauSoin = new CSoin(datePrevue, description, animal);
-        soinsPlanifies.add(nouveauSoin);
-        System.out.println("Soigneur " + nom + " a planifié un soin : " + description);
-        return nouveauSoin;
-    }
+  
     public void planifierRepas() {
         Scanner scanner = new Scanner(System.in);
         
@@ -66,20 +61,13 @@ public class Soigneur {
         // Logique spécifique aux reptiles
     }
 
-    // Getters et Setters
-    public String getNom() {
-        return nom;
+    public void assignerEnclos(Enclos enclos) {
+        if (!enclosGeres.contains(enclos)) {
+            enclosGeres.add(enclos);
+        }
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getMatricule() {
-        return matricule;
-    }
-
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
+    public List<Enclos> getEnclosGeres() {
+        return enclosGeres;
     }
 }
