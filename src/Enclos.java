@@ -1,13 +1,12 @@
-/**
- * 
- */
+import java.util.ArrayList;
+
 public class Enclos {
 	private String nom;
 	private int capaciteMax;
 	private String typeEnvironnement;
-	
+	private ArrayList<Animal> animaux = new ArrayList<Animal>();
+
 	public Enclos(String nom, int capaciteMax, String typeEnvironnement) {
-		super();
 		this.nom = nom;
 		this.capaciteMax = capaciteMax;
 		this.typeEnvironnement = typeEnvironnement;
@@ -37,37 +36,40 @@ public class Enclos {
 		this.typeEnvironnement = typeEnvironnement;
 	}
 
-	@Override
-	public String toString() {
-		return "Enclos [nom=" + nom + ", capaciteMax=" + capaciteMax + ", typeEnvironnement=" + typeEnvironnement + "]";
+	public ArrayList<Animal> getAnimaux() {
+		return animaux;
 	}
-	
-	/*
-	verifierCompatibilite (animal: Animal): boolean 
-	estPlein() boolean
-	ajouterAnimal (animal: Animal) 
-	retirerAnimal(animal: Animal)
-	*/
+
+	// Compatible si l'enclos est vide ou si c'est la même classe
+	// que le premier animal (Oiseau avec Oiseau, etc.)
 	public boolean verifierCompatibilite(Animal animal) {
-		return false;
-		
-	}
-	
-	public boolean estPlein() {
-		if (capaciteMax == 0) {
-			return false;
-		} else {
+		if (animaux.isEmpty()) {
 			return true;
 		}
-		
-		
+		return animaux.get(0).getClass() == animal.getClass();
 	}
-	
-	public void ajouterAnimal(Animal animal) {
-		
+
+	// Plein quand on a atteint la capacité maximale
+	public boolean estPlein() {
+		return animaux.size() >= capaciteMax;
 	}
-	
+
+	// Retourne true si l'animal a été ajouté, false sinon
+	public boolean ajouterAnimal(Animal animal) {
+		if (animal == null || animaux.contains(animal) || estPlein() || !verifierCompatibilite(animal)) {
+			return false;
+		}
+		animaux.add(animal);
+		return true;
+	}
+
 	public void retirerAnimal(Animal animal) {
-		
+		animaux.remove(animal);
+	}
+
+	@Override
+	public String toString() {
+		return "Enclos [nom=" + nom + ", capaciteMax=" + capaciteMax + ", typeEnvironnement=" + typeEnvironnement
+				+ ", animaux=" + animaux.size() + "]";
 	}
 }
