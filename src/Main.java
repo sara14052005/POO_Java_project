@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -16,6 +17,7 @@ public class Main {
 					+ "\n5. Calculer le coût de nourriture mensuel"
 					+ "\n6. Voir les alertes"
 					+ "\n7. Afficher le zoo"
+					+ "\n8. Planifier Repas"
 					+ "\n0. Quitter");
 
 			System.out.print("Entrer choix: ");
@@ -46,12 +48,26 @@ public class Main {
 				break;
 			case 2:
 				System.out.print("1. Oiseau  2. Mammifere  3. Reptile : ");
-				int type = sc.nextInt();
-				sc.nextLine();
+		        int type = sc.nextInt();
+		        if (type < 1 || type > 3) {
+		            System.out.println("Type invalide.");
+		            return;
+		        }
+				System.out.print("Nom: ");
+				String Nom = sc.next();
+				System.out.print("Age: ");
+				int age = sc.nextInt();
+				System.out.print("Poids (kg): ");
+				double poid = sc.nextDouble();
+				System.out.print("Regime (carnivore/herbivore/omnivore): ");
+				String regime = sc.next();
+				System.out.print("Statut de sante (ex: Bon): ");
+				String sante = sc.next();
 				Animal animal = null;
-				// À modifier si les autres ajoutent des paramètres aux constructeurs
+				
+				//Nom,age,poid,regime,sante
 				if (type == 1) {
-					animal = new Oiseau();
+					animal = new Oiseau(Nom,age,poid,regime,sante);
 				} else if (type == 2) {
 					animal = new Mammifere();
 				} else if (type == 3) {
@@ -60,19 +76,33 @@ public class Main {
 				zoo.ajouterAnimal(animal);
 				break;
 			case 3:
-				zoo.afficherAnimaux();
-				System.out.print("Numéro de l'animal: ");
-				int numAnimal = sc.nextInt();
-				zoo.afficherEnclos();
-				System.out.print("Numéro de l'enclos: ");
-				int numEnclos = sc.nextInt();
-				sc.nextLine();
-				zoo.affecterParNumero(numAnimal, numEnclos);
+				
+				System.out.print("Animal à affecter (nom ou critère): ");
+				String critereAnimal = sc.nextLine();
+				System.out.print("Nom de l'enclos: ");
+				String nomEnclos = sc.nextLine();
+
+				
+				ArrayList<Animal> trouves = zoo.rechercherAnimal(critereAnimal);
+				Enclos enclosTrouve = zoo.rechercherEnclos(nomEnclos);
+
+				
+				if (trouves.isEmpty()) {
+					System.out.println("Aucun animal trouvé.");
+				} else if (enclosTrouve == null) {
+					System.out.println("Aucun enclos trouvé.");
+				} else {
+					try {
+						zoo.affecterAnimalEnclos(trouves.get(0), enclosTrouve);
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
 				break;
 			case 4:
 				System.out.print("Critère de recherche: ");
 				String critere = sc.nextLine();
-				zoo.afficherRecherche(critere);
+				zoo.rechercherAnimal(critere);
 				break;
 			case 5:
 				System.out.print("Prix du kilo: ");

@@ -44,7 +44,7 @@ public class Zoo {
 		}
 	}
 
-	// Cherche le texte dans la description (toString) de chaque animal
+	
 	public ArrayList<Animal> rechercherAnimal(String critere) {
 		ArrayList<Animal> resultat = new ArrayList<Animal>();
 		for (Animal a : animaux) {
@@ -54,9 +54,19 @@ public class Zoo {
 		}
 		return resultat;
 	}
-
-	public void affecterAnimalEnclos(Animal animal, Enclos e) {
-		// On cherche l'ancien enclos de l'animal (s'il en a un)
+	
+	
+	public Enclos rechercherEnclos(String nom) {
+		for (Enclos e : enclos) {
+			if (e.getNom().equalsIgnoreCase(nom)) {
+				return e;
+			}
+		}
+		return null;
+	}
+	
+	public void affecterAnimalEnclos(Animal animal, Enclos e) throws Exception{
+		
 		Enclos ancien = null;
 		for (Enclos autre : enclos) {
 			if (autre.getAnimaux().contains(animal)) {
@@ -71,18 +81,12 @@ public class Zoo {
 			}
 			System.out.println("Animal affecté à l'enclos " + e.getNom() + ".");
 		} else {
-			System.out.println("Impossible : enclos plein, animal incompatible ou déjà dedans.");
+			throw new Exception ("Impossible : enclos plein, animal incompatible ou déjà dedans.");
 		}
 	}
 
-	// Même chose avec les numéros affichés dans le menu (1, 2, 3...)
-	public void affecterParNumero(int numAnimal, int numEnclos) {
-		if (numAnimal < 1 || numAnimal > animaux.size() || numEnclos < 1 || numEnclos > enclos.size()) {
-			System.out.println("Numéro invalide.");
-		} else {
-			affecterAnimalEnclos(animaux.get(numAnimal - 1), enclos.get(numEnclos - 1));
-		}
-	}
+	
+	
 
 	public ArrayList<String> genererAlertes() {
 		ArrayList<String> alertes = new ArrayList<String>();
@@ -107,16 +111,16 @@ public class Zoo {
 		return alertes;
 	}
 
-	// Ration (en kg) de tous les animaux x 30 jours x prix du kilo
+	
 	public double calculerCoutNourritureMensuel(double prixKilo) {
 		double total = 0;
 		for (Animal a : animaux) {
-			total = total + a.calculerRation();
+			//total = total + a.calculerRation();
 		}
 		return total * 30 * prixKilo;
 	}
 
-	// ---------- Affichages (appelés par le Main) ----------
+	
 
 	public void afficherAnimaux() {
 		for (int i = 0; i < animaux.size(); i++) {
@@ -129,14 +133,14 @@ public class Zoo {
 			System.out.println((i + 1) + ". " + enclos.get(i));
 		}
 	}
-
-	public void afficherRecherche(String critere) {
-		ArrayList<Animal> resultat = rechercherAnimal(critere);
-		System.out.println(resultat.size() + " résultat(s) :");
-		for (Animal a : resultat) {
-			System.out.println(" - " + a);
+	
+	public void afficherEmploye() {
+		for (int i = 0; i < employes.size(); i++) {
+			System.out.println((i + 1) + ". " + employes.get(i));
 		}
 	}
+
+	
 
 	public void afficherAlertes() {
 		ArrayList<String> alertes = genererAlertes();
@@ -153,15 +157,9 @@ public class Zoo {
 	}
 
 	public void afficherZoo() {
-		System.out.println(this);
-		System.out.println("--- Enclos ---");
-		for (Enclos e : enclos) {
-			System.out.println(e);
-			for (Animal a : e.getAnimaux()) {
-				System.out.println("     * " + a);
-			}
-		}
-		System.out.println("Animaux : " + animaux.size() + " | Employés : " + employes.size());
+		System.out.println("+++ "+this.nom+" +++");
+		System.out.println("Animaux : " + animaux.size() + "| Enclos: "+enclos.size()+""
+				+ "| Employés : " + employes.size());
 	}
 
 	@Override

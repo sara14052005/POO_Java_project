@@ -40,8 +40,7 @@ public class Enclos {
 		return animaux;
 	}
 
-	// Compatible si l'enclos est vide ou si c'est la même classe
-	// que le premier animal (Oiseau avec Oiseau, etc.)
+	
 	public boolean verifierCompatibilite(Animal animal) {
 		if (animaux.isEmpty()) {
 			return true;
@@ -49,12 +48,12 @@ public class Enclos {
 		return animaux.get(0).getClass() == animal.getClass();
 	}
 
-	// Plein quand on a atteint la capacité maximale
+	
 	public boolean estPlein() {
 		return animaux.size() >= capaciteMax;
 	}
 
-	// Retourne true si l'animal a été ajouté, false sinon
+	
 	public boolean ajouterAnimal(Animal animal) {
 		if (animal == null || animaux.contains(animal) || estPlein() || !verifierCompatibilite(animal)) {
 			return false;
