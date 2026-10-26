@@ -61,7 +61,7 @@ public class Oiseau extends Animal implements Volant, Nageur {
 
     @Override
     public void voler() {
-        if (peutVoler=false) {
+        if (peutVoler == false) {
             System.out.println(
                 nom + " ne peut pas voler."
             );
@@ -86,7 +86,7 @@ public class Oiseau extends Animal implements Volant, Nageur {
 
     @Override
     public void nager() {
-        if (peutNager=false) {
+        if (peutNager == false) {
             System.out.println(
                 nom + " n'est pas identifié comme un oiseau nageur."
             );
