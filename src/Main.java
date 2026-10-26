@@ -5,7 +5,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		Zoo zoo = new Zoo("Zoo de Safi");
+		System.out.println("******* ZooKeeper *******");
+		System.out.print("Nom de Zoo: ");
+		String nomZoo = sc.next();
+		Zoo zoo = new Zoo(nomZoo);
 		int choix;
 
 		do {
@@ -17,23 +20,21 @@ public class Main {
 					+ "\n5. Calculer le coût de nourriture mensuel"
 					+ "\n6. Voir les alertes"
 					+ "\n7. Afficher le zoo"
-					+ "\n8. Planifier Repas"
 					+ "\n0. Quitter");
 
 			System.out.print("Entrer choix: ");
 			choix = sc.nextInt();
-			sc.nextLine();
-
+			
 			switch (choix) {
 			case 0:
 				System.out.println("Au revoir !");
 				break;
 			case 1:
 				System.out.print("Nom de l'enclos: ");
-				String nom = sc.nextLine();
+				String nom = sc.next();
 				System.out.print("Capacité max: ");
 				int capacite = sc.nextInt();
-				sc.nextLine();
+				sc.next();
 				System.out.print("Type d'environnement(TERRESTRE, "
 						+ "AQUATIQUE, "
 						+ "AERIEN, "
@@ -42,7 +43,7 @@ public class Main {
 						+ "POLAIRE, "
 						+ "DESERTIQUE): ");
 					    
-				String env = sc.nextLine();
+				String env = sc.next();
 				zoo.ajouterEnclos(new Enclos(nom, capacite, env));
 				System.out.println("Enclos ajouté.");
 				break;
@@ -78,9 +79,9 @@ public class Main {
 			case 3:
 				
 				System.out.print("Animal à affecter (nom ou critère): ");
-				String critereAnimal = sc.nextLine();
+				String critereAnimal = sc.next();
 				System.out.print("Nom de l'enclos: ");
-				String nomEnclos = sc.nextLine();
+				String nomEnclos = sc.next();
 
 				
 				ArrayList<Animal> trouves = zoo.rechercherAnimal(critereAnimal);
@@ -101,13 +102,13 @@ public class Main {
 				break;
 			case 4:
 				System.out.print("Critère de recherche: ");
-				String critere = sc.nextLine();
+				String critere = sc.next();
 				zoo.rechercherAnimal(critere);
 				break;
 			case 5:
 				System.out.print("Prix du kilo: ");
 				double prix = sc.nextDouble();
-				sc.nextLine();
+				sc.next();
 				zoo.afficherCoutNourriture(prix);
 				break;
 			case 6:
