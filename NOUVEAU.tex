@@ -1,0 +1,51 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\title{\textbf{Rapport de Révision de la Modélisation UML}\\\large Projet Java : ZooKeeper}
+\author{Équipe de Développement}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction et Contexte}
+Dans le cadre du projet \textbf{ZooKeeper}, une révision critique du diagramme de classes initial a été effectuée. L'objectif est d'aligner le modèle conceptuel avec les exigences du cahier des charges tout en appliquant les principes fondamentaux de la programmation orientée objet (POO), notamment le principe de responsabilité unique (\textit{Single Responsibility Principle - SRP}) et la robustesse du typage.
+
+\section{Modifications Apportées et Justifications}
+
+\subsection{1. Introduction des Énumérations (\texttt{enum})}
+Dans la première version, les attributs de régime alimentaire et d'état de santé étaient modélisés par des chaînes de caractères (\texttt{String}). 
+\begin{itemize}
+    \item \textbf{\texttt{Regime}} : \texttt{CARNIVORE}, \texttt{HERBIVORE}, \texttt{OMNIVORE}.
+    \item \textbf{\texttt{StatutSante}} : \texttt{BONNE\_SANTE}, \texttt{MALADE}, \texttt{EN\_SOIN}, \texttt{VACCIN\_A\_RENOUVELER}.
+\end{itemize}
+\textbf{Justification :} Cette typification forte élimine tout risque d'erreur de frappe (ex: \og carnivor \fg{}), garantit l'intégrité des données lors du contrôle de compatibilité dans les enclos et simplifie la génération des alertes sanitaires.
+
+\subsection{2. Refonte de la Hiérarchie du Personnel (\texttt{Employe})}
+Le modèle initial attribuait indistinctement l'entretien des enclos et les soins médicaux à la seule classe \texttt{Soigneur}. Une refonte a été opérée :
+\begin{itemize}
+    \item \textbf{Classe Abstraite \texttt{Employe}} : Factorise les attributs communs (\texttt{nom}, \texttt{matricule}).
+    \item \textbf{Classe \texttt{Soigneur}} : Spécialisée dans la gestion quotidienne des enclos (\texttt{assignerEnclos}) et l'alimentation (\texttt{planifierRepas}). Elle conserve la relation d'association avec la classe \texttt{Enclos}.
+    \item \textbf{Classe \texttt{Veterinaire}} : Spécialisée dans le suivi médical (\texttt{planifierSoin}, \texttt{examiner}). Elle interagit directement avec les classes \texttt{Animal} et \texttt{Soin}.
+\end{itemize}
+\textbf{Justification :} Respect strict de la séparation des responsabilités. Le vétérinaire n'a pas à intervenir sur la logistique des enclos, et le soigneur n'effectue pas d'actes vétérinaires.
+
+\subsection{3. Réajustement des Interfaces (\texttt{Volant}, \texttt{Nageur}, \texttt{Soignable})}
+L'implémentation aveugle de toutes les interfaces par toutes les familles d'animaux a été corrigée. 
+\begin{itemize}
+    \item L'interface \texttt{Soignable} reste portée par la classe abstraite \texttt{Animal}.
+    \item Les interfaces de capacité motrice (\texttt{Volant}, \texttt{Nageur}) sont affectées avec discernement pour éviter qu'un mammifère terrestre n'hérite d'une méthode \texttt{voler()}.
+\end{itemize}
+
+\section{Perspective : Intégration JavaFX et Scene Builder}
+L'ensemble de cette couche objet constitue le \textbf{Modèle (Model)} au sein de l'architecture MVC. L'interface graphique conçue sous \textit{Scene Builder} (fichiers FXML) et gérée sous \textit{Eclipse} viendra consommer ces classes métier sans nécessiter de refonte structurelle.
+
+\end{document}
