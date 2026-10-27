@@ -30,11 +30,7 @@ public class Oiseau extends Animal implements Volant, Nageur {
             );
         }
 
-        this.nom = nom;
-        this.age = age;
-        this.poids = poids;
-        this.regime = regime;
-        this.statutSante = statutSante;
+       super(nom, age, poids, regime, statutSante);
 
         this.peutNager = false;
         this.peutVoler = true;
@@ -45,7 +41,7 @@ public class Oiseau extends Animal implements Volant, Nageur {
                   String regime, String statutSante,
                   boolean peutVoler, boolean peutNager) {
 
-        this(nom, age, poids, regime, statutSante);
+         super(nom, age, poids, regime, statutSante);
         this.peutVoler = peutVoler;
         this.peutNager = peutNager;
     }
