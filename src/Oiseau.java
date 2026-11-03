@@ -3,19 +3,17 @@ public class Oiseau extends Animal implements Volant, Nageur {
     private boolean peutNager;
     private boolean peutVoler;
 
-   
-
     public Oiseau(String nom, int age, double poids,
-                  String regime, String statutSante,
-                  boolean peutVoler, boolean peutNager) {
+            String regime, String statutSante,
+            boolean peutVoler, boolean peutNager) {
 
         super(nom, age, poids, regime, statutSante);
         this.peutVoler = peutVoler;
         this.peutNager = peutNager;
     }
-    
+
     public double calculerHauteurVol() {
-        if (peutVoler=false) {
+        if (peutVoler = false) {
             return 0.0;
         }
 
@@ -26,42 +24,37 @@ public class Oiseau extends Animal implements Volant, Nageur {
     public void voler() {
         if (peutVoler == false) {
             System.out.println(
-                nom + " ne peut pas voler."
-            );
+                    nom + " ne peut pas voler.");
             return;
         }
 
         if (statutSante != null
                 && statutSante.equalsIgnoreCase("Malade")) {
             System.out.println(
-                nom + " ne peut pas voler : son état de santé "
-                + "nécessite une vérification."
-            );
+                    nom + " ne peut pas voler : son état de santé "
+                            + "nécessite une vérification.");
             return;
         }
 
         System.out.println(
-            nom + " vole à une hauteur estimée de "
-            + String.format("%.2f", calculerHauteurVol())
-            + " mètres."
-        );
+                nom + " vole à une hauteur estimée de "
+                        + String.format("%.2f", calculerHauteurVol())
+                        + " mètres.");
     }
 
     @Override
     public void nager() {
         if (peutNager == false) {
             System.out.println(
-                nom + " n'est pas identifié comme un oiseau nageur."
-            );
+                    nom + " n'est pas identifié comme un oiseau nageur.");
             return;
         }
 
         if (statutSante != null
                 && statutSante.equalsIgnoreCase("Malade")) {
             System.out.println(
-                nom + " ne doit pas nager avant une évaluation "
-                + "de son état de santé."
-            );
+                    nom + " ne doit pas nager avant une évaluation "
+                            + "de son état de santé.");
             return;
         }
 
@@ -71,20 +64,18 @@ public class Oiseau extends Animal implements Volant, Nageur {
     @Override
     public void seNourrir() {
         System.out.println(
-            nom + " se nourrit selon son régime : " + regime + "."
-        );
+                nom + " se nourrit selon son régime : " + regime + ".");
     }
 
     @Override
     public void emettreSon() {
         System.out.println(
-            nom + " émet ses vocalisations naturelles."
-        );
+                nom + " émet ses vocalisations naturelles.");
     }
 
     @Override
     public double calculerRation() {
-       
+
         double ration = poids * 0.07;
 
         if (regime.equalsIgnoreCase("Carnivore")) {
