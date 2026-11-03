@@ -115,7 +115,7 @@ public class Zoo {
 	public double calculerCoutNourritureMensuel(double prixKilo) {
 		double total = 0;
 		for (Animal a : animaux) {
-			//total = total + a.calculerRation();
+			total = total + a.calculerRation();
 		}
 		return total * 30 * prixKilo;
 	}

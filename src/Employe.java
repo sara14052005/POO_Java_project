@@ -1,7 +1,7 @@
 public abstract class Employe {
     protected String nom;
     protected String matricule;
-
+    
     public Employe(String nom, String matricule) {
         this.nom = nom;
         this.matricule = matricule;

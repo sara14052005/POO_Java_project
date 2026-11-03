@@ -10,7 +10,6 @@ public class Reptile extends Animal implements Nageur {
 		System.out.println(nom + " nage.");
 
 	}
-
 	@Override
 	public void seNourrir() {
 		System.out.println(nom + " (reptile) avale " + calculerRation() + " kg.");

@@ -2,7 +2,7 @@ public class Mammifere extends Animal implements Nageur, Volant {
 
 	public Mammifere(String nom, int age, double poids, String regime, String statutSante) {
 		super(nom, age, poids, regime, statutSante);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

@@ -3,53 +3,16 @@ public class Oiseau extends Animal implements Volant, Nageur {
     private boolean peutNager;
     private boolean peutVoler;
 
-    public Oiseau(String nom, int age, double poids,
-                  String regime, String statutSante) {
-
-        if (nom == null || nom.isBlank()) {
-            throw new IllegalArgumentException(
-                "Le nom de l'oiseau est obligatoire."
-            );
-        }
-
-        if (age < 0) {
-            throw new IllegalArgumentException(
-                "L'âge ne peut pas être négatif."
-            );
-        }
-
-        if (poids <= 0 ) {
-            throw new IllegalArgumentException(
-                "Le poids doit être un nombre positif."
-            );
-        }
-
-        if (regime == null || regime.isBlank()) {
-            throw new IllegalArgumentException(
-                "Le régime alimentaire est obligatoire."
-            );
-        }
-
-        this.nom = nom;
-        this.age = age;
-        this.poids = poids;
-        this.regime = regime;
-        this.statutSante = statutSante;
-
-        this.peutNager = false;
-        this.peutVoler = true;
-    }
-
+   
 
     public Oiseau(String nom, int age, double poids,
                   String regime, String statutSante,
                   boolean peutVoler, boolean peutNager) {
 
-        this(nom, age, poids, regime, statutSante);
+        super(nom, age, poids, regime, statutSante);
         this.peutVoler = peutVoler;
         this.peutNager = peutNager;
     }
-
     
     public double calculerHauteurVol() {
         if (peutVoler=false) {

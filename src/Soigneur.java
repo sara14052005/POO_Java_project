@@ -10,7 +10,6 @@ public class Soigneur extends Employe {
         this.enclosGeres = new ArrayList<>();
     }
 
-  
     public void planifierRepas() {
         Scanner scanner = new Scanner(System.in);
         
@@ -41,6 +40,7 @@ public class Soigneur extends Employe {
             default:
                 System.out.println("Choix invalide. Retour au menu principal.");
         }
+        scanner.close();
     }
 
     private void planifierRepasMammifere() {
@@ -70,4 +70,5 @@ public class Soigneur extends Employe {
     public List<Enclos> getEnclosGeres() {
         return enclosGeres;
     }
+    
 }
