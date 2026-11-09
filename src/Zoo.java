@@ -136,7 +136,9 @@ public class Zoo {
 	
 	public void afficherEmploye() {
 		for (int i = 0; i < employes.size(); i++) {
-			System.out.println((i + 1) + ". " + employes.get(i));
+			Employe e = employes.get(i);
+			System.out.println((i + 1) + ". " + e.getClass().getSimpleName() + " " + e.getNom()
+					+ " (" + e.getMatricule() + ")");
 		}
 	}
 
@@ -162,6 +164,14 @@ public class Zoo {
 				+ "| Employés : " + employes.size());
 	}
 
+	public Employe rechercherEmploye(String nom) {
+		for (Employe e : employes) {
+			if (e.getNom().equalsIgnoreCase(nom)) {
+				return e;
+			}
+		}
+		return null;
+	}
 	@Override
 	public String toString() {
 		return "Zoo [nom=" + nom + "]";
