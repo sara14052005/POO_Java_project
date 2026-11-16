@@ -1,14 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -133,35 +131,52 @@ public class Zoo {
 
 	// <====== Map + Stream ======>
 
-	// Function + Map : regroupe les animaux selon une clé (type, régime...)
-	public <K> Map<K, List<Animal>> grouperAnimaux(Function<Animal, K> cle) {
-		return animaux.stream()
-				.collect(Collectors.groupingBy(cle, LinkedHashMap::new, Collectors.toList()));
+	// Function + Map : compte les animaux selon une clé donnée (type, régime...)
+	public Map<String, Integer> compterSelon(Function<Animal, String> cle) {
+		Map<String, Integer> comptage = new HashMap<String, Integer>();
+		for (Animal a : animaux) {
+			String valeur = cle.apply(a);
+			if (comptage.containsKey(valeur)) {
+				comptage.put(valeur, comptage.get(valeur) + 1); // la clé existe : on met à jour
+			} else {
+				comptage.put(valeur, 1);
+			}
+		}
+		return comptage;
 	}
 
 	// Map : type d'animal -> ration journalière totale
 	public Map<String, Double> rationParType() {
-		return animaux.stream()
-				.collect(Collectors.groupingBy(
-						a -> a.getClass().getSimpleName(),
-						TreeMap::new,
-						Collectors.summingDouble(Animal::calculerRation)));
+		Map<String, Double> rations = new HashMap<String, Double>();
+		for (Animal a : animaux) {
+			String type = a.getClass().getSimpleName();
+			if (rations.containsKey(type)) {
+				rations.put(type, rations.get(type) + a.calculerRation());
+			} else {
+				rations.put(type, a.calculerRation());
+			}
+		}
+		return rations;
 	}
 
-	// Set : régimes présents dans le zoo, sans doublon et triés
+	// Set : régimes présents dans le zoo, sans doublon (collect + Collectors.toSet)
 	public Set<String> regimesPresents() {
 		return animaux.stream()
 				.map(a -> a.getRegime().toLowerCase())
-				.collect(Collectors.toCollection(TreeSet::new));
+				.collect(Collectors.toSet());
 	}
 
-	// EnumMap : environnement -> enclos
+	// Map : environnement -> liste des enclos
 	public Map<TypeEnvironnement, List<Enclos>> enclosParEnvironnement() {
-		return enclos.stream()
-				.collect(Collectors.groupingBy(
-						Enclos::getTypeEnvironnement,
-						() -> new EnumMap<TypeEnvironnement, List<Enclos>>(TypeEnvironnement.class),
-						Collectors.toList()));
+		Map<TypeEnvironnement, List<Enclos>> parEnv = new HashMap<TypeEnvironnement, List<Enclos>>();
+		for (Enclos en : enclos) {
+			TypeEnvironnement env = en.getTypeEnvironnement();
+			if (!parEnv.containsKey(env)) {
+				parEnv.put(env, new ArrayList<Enclos>());
+			}
+			parEnv.get(env).add(en);
+		}
+		return parEnv;
 	}
 
 	// ======= Affectation, alertes, coût =======
@@ -242,23 +257,31 @@ public class Zoo {
 
 	public void afficherStatistiques() {
 		System.out.println("--- Nombre d'animaux par type ---");
-		grouperAnimaux(a -> a.getClass().getSimpleName())
-				.forEach((type, liste) -> System.out.println(type + " : " + liste.size()));
-
-		System.out.println("--- Nombre d'animaux par régime ---");
-		grouperAnimaux(a -> a.getRegime().toLowerCase())
-				.forEach((regime, liste) -> System.out.println(regime + " : " + liste.size()));
-
-		System.out.println("--- Ration journalière totale par type (kg) ---");
-		for (Map.Entry<String, Double> entree : rationParType().entrySet()) {
-			System.out.println(entree.getKey() + " : " + String.format("%.2f", entree.getValue()));
+		Map<String, Integer> parType = compterSelon(a -> a.getClass().getSimpleName());
+		for (String type : parType.keySet()) {
+			System.out.println(type + " : " + parType.get(type));
 		}
 
-		System.out.println("--- Régimes présents (Set) ---");
-		System.out.println(regimesPresents());
+		System.out.println("--- Nombre d'animaux par régime ---");
+		Map<String, Integer> parRegime = compterSelon(a -> a.getRegime().toLowerCase());
+		for (String regime : parRegime.keySet()) {
+			System.out.println(regime + " : " + parRegime.get(regime));
+		}
 
-		System.out.println("--- Noms des animaux ---");
-		System.out.println(extraire(Animal::getNom));
+		System.out.println("--- Ration journalière par type (kg) ---");
+		Map<String, Double> rations = rationParType();
+		for (String type : rations.keySet()) {
+			System.out.println(type + " : " + String.format("%.2f", rations.get(type)));
+		}
+
+		System.out.println("--- Enclos par environnement ---");
+		Map<TypeEnvironnement, List<Enclos>> parEnv = enclosParEnvironnement();
+		for (TypeEnvironnement env : parEnv.keySet()) {
+			System.out.println(env + " :");
+			parEnv.get(env).forEach(en -> System.out.println("   - " + en.getNom()));
+		}
+
+		System.out.println("--- Régimes présents (Set) : " + regimesPresents());
 	}
 
 	public void afficherEnclosParEnvironnement() {
